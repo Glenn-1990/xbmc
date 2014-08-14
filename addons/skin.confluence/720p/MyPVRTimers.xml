@@ -180,7 +180,7 @@
 							<control type="label">
 								<left>600</left>
 								<top>0</top>
-								<width>400</width>
+								<width>320</width>
 								<height>40</height>
 								<font>font12</font>
 								<aligny>center</aligny>
@@ -262,7 +262,7 @@
 							<control type="label">
 								<left>600</left>
 								<top>0</top>
-								<width>400</width>
+								<width>320</width>
 								<height>40</height>
 								<font>font12</font>
 								<aligny>center</aligny>
