@@ -57,6 +57,7 @@ void CGUIWindowPVRSearch::GetContextButtons(int itemNumber, CContextButtons &but
           buttons.Add(CONTEXT_BUTTON_START_RECORD, 264);   /* RECORD programme */
         else
           buttons.Add(CONTEXT_BUTTON_START_RECORD, 19061); /* Create a Timer */
+        buttons.Add(CONTEXT_BUTTON_ADVANCED_RECORD, 802);  /* add advanced timer */
       }
       else
       {
@@ -244,6 +245,11 @@ bool CGUIWindowPVRSearch::OnContextButtonStartRecord(CFileItem *item, CONTEXT_BU
     bReturn = true;
 
     StartRecordFile(*item);
+  }
+  if (button == CONTEXT_BUTTON_ADVANCED_RECORD)
+  {
+    StartRecordFile(*item, true);
+    bReturn = true;
   }
 
   return bReturn;

@@ -270,6 +270,7 @@ void CPVRClient::WriteClientTimerInfo(const CPVRTimerInfoTag &xbmcTimer, PVR_TIM
 
   addonTimer.iClientIndex      = xbmcTimer.m_iClientIndex;
   addonTimer.state             = xbmcTimer.m_state;
+  addonTimer.type              = xbmcTimer.m_type;
   addonTimer.iClientIndex      = xbmcTimer.m_iClientIndex;
   addonTimer.iClientChannelUid = xbmcTimer.m_iClientChannelUid;
   strncpy(addonTimer.strTitle, xbmcTimer.m_strTitle.c_str(), sizeof(addonTimer.strTitle) - 1);
@@ -277,6 +278,7 @@ void CPVRClient::WriteClientTimerInfo(const CPVRTimerInfoTag &xbmcTimer, PVR_TIM
   addonTimer.iPriority         = xbmcTimer.m_iPriority;
   addonTimer.iLifetime         = xbmcTimer.m_iLifetime;
   addonTimer.bIsRepeating      = xbmcTimer.m_bIsRepeating;
+  addonTimer.bSkipRepeating    = xbmcTimer.m_bSkipRepeating;
   addonTimer.iWeekdays         = xbmcTimer.m_iWeekdays;
   addonTimer.startTime         = start - g_advancedSettings.m_iPVRTimeCorrection;
   addonTimer.endTime           = end - g_advancedSettings.m_iPVRTimeCorrection;
@@ -841,7 +843,7 @@ int CPVRClient::GetTimersAmount(void)
   if (!m_bReadyToUse)
     return iReturn;
 
-  if (!m_addonCapabilities.bSupportsTimers)
+  if (!SupportsTimers())
     return iReturn;
 
   try { iReturn = m_pStruct->GetTimersAmount(); }
@@ -855,7 +857,7 @@ PVR_ERROR CPVRClient::GetTimers(CPVRTimers *results)
   if (!m_bReadyToUse)
     return PVR_ERROR_REJECTED;
 
-  if (!m_addonCapabilities.bSupportsTimers)
+  if (!SupportsTimers())
     return PVR_ERROR_NOT_IMPLEMENTED;
 
   PVR_ERROR retVal(PVR_ERROR_UNKNOWN);
@@ -881,7 +883,7 @@ PVR_ERROR CPVRClient::AddTimer(const CPVRTimerInfoTag &timer)
   if (!m_bReadyToUse)
     return PVR_ERROR_REJECTED;
 
-  if (!m_addonCapabilities.bSupportsTimers)
+  if (!SupportsTimers())
     return PVR_ERROR_NOT_IMPLEMENTED;
 
   PVR_ERROR retVal(PVR_ERROR_UNKNOWN);
@@ -902,12 +904,12 @@ PVR_ERROR CPVRClient::AddTimer(const CPVRTimerInfoTag &timer)
   return retVal;
 }
 
-PVR_ERROR CPVRClient::DeleteTimer(const CPVRTimerInfoTag &timer, bool bForce /* = false */)
+PVR_ERROR CPVRClient::DeleteTimer(const CPVRTimerInfoTag &timer, bool bForce /* = false */, bool bDeleteSchedule /* = false */)
 {
   if (!m_bReadyToUse)
     return PVR_ERROR_REJECTED;
 
-  if (!m_addonCapabilities.bSupportsTimers)
+  if (!SupportsTimers())
     return PVR_ERROR_NOT_IMPLEMENTED;
 
   PVR_ERROR retVal(PVR_ERROR_UNKNOWN);
@@ -916,7 +918,7 @@ PVR_ERROR CPVRClient::DeleteTimer(const CPVRTimerInfoTag &timer, bool bForce /* 
     PVR_TIMER tag;
     WriteClientTimerInfo(timer, tag);
 
-    retVal = m_pStruct->DeleteTimer(tag, bForce);
+    retVal = m_pStruct->DeleteTimer(tag, bForce, bDeleteSchedule);
 
     LogError(retVal, __FUNCTION__);
   }
@@ -933,7 +935,7 @@ PVR_ERROR CPVRClient::RenameTimer(const CPVRTimerInfoTag &timer, const std::stri
   if (!m_bReadyToUse)
     return PVR_ERROR_REJECTED;
 
-  if (!m_addonCapabilities.bSupportsTimers)
+  if (!SupportsTimers())
     return PVR_ERROR_NOT_IMPLEMENTED;
 
   PVR_ERROR retVal(PVR_ERROR_UNKNOWN);
@@ -959,7 +961,7 @@ PVR_ERROR CPVRClient::UpdateTimer(const CPVRTimerInfoTag &timer)
   if (!m_bReadyToUse)
     return PVR_ERROR_REJECTED;
 
-  if (!m_addonCapabilities.bSupportsTimers)
+  if (!SupportsTimers())
     return PVR_ERROR_NOT_IMPLEMENTED;
 
   PVR_ERROR retVal(PVR_ERROR_UNKNOWN);
@@ -1291,7 +1293,35 @@ bool CPVRClient::SupportsRecordingEdl(void) const
 
 bool CPVRClient::SupportsTimers(void) const
 {
-  return m_addonCapabilities.bSupportsTimers;
+  return m_addonCapabilities.iSupportedTimersMask > PVR_TIMER_TYPE_NONE;
+}
+
+bool CPVRClient::SupportsSerieEpgTimers(void) const
+{
+  bool bReturn(false);
+  bReturn = ((m_addonCapabilities.iSupportedTimersMask & PVR_TIMER_TYPE_SERIE_EPG_ANYTIME_THIS_CHANNEL)
+      || (m_addonCapabilities.iSupportedTimersMask & PVR_TIMER_TYPE_SERIE_EPG_ANYTIME_ANY_CHANNEL)
+      || (m_addonCapabilities.iSupportedTimersMask & PVR_TIMER_TYPE_SERIE_EPG_WEEKLY_AROUND_TIME)
+      || (m_addonCapabilities.iSupportedTimersMask & PVR_TIMER_TYPE_SERIE_EPG_DAILY_AROUND_TIME)
+      || (m_addonCapabilities.iSupportedTimersMask & PVR_TIMER_TYPE_SERIE_EPG_WEEKENDS)
+      || (m_addonCapabilities.iSupportedTimersMask & PVR_TIMER_TYPE_SERIE_EPG_WEEKDAYS));
+
+  return bReturn;
+}
+
+bool CPVRClient::SupportsSerieManualTimers(void) const
+{
+  return (m_addonCapabilities.iSupportedTimersMask & PVR_TIMER_TYPE_SERIE_MANUAL);
+}
+
+bool CPVRClient::SupportsSkipRepeatingTimers(void) const
+{
+  return m_addonCapabilities.bSupportsTimerSkipRepeating;
+}
+
+int CPVRClient::GetSupportedTimers(void) const
+{
+  return m_addonCapabilities.iSupportedTimersMask;
 }
 
 bool CPVRClient::SupportsTV(void) const
