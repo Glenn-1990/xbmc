@@ -205,7 +205,7 @@
 								<font>font12</font>
 								<aligny>center</aligny>
 								<selectedcolor>selected</selectedcolor>
-								<info>ListItem.Artist</info>
+								<info>ListItem.Timertype</info>
 							</control>
 							<control type="label">
 								<left>980</left>
@@ -297,7 +297,7 @@
 								<font>font12</font>
 								<aligny>center</aligny>
 								<selectedcolor>selected</selectedcolor>
-								<info>ListItem.Artist</info>
+								<info>ListItem.Timertype</info>
 							</control>
 							<control type="label">
 								<left>980</left>

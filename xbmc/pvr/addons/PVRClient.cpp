@@ -140,6 +140,8 @@ void CPVRClient::ResetProperties(int iClientId /* = PVR_INVALID_CLIENT_ID */)
   m_strClientPath         = CSpecialProtocol::TranslatePath(Path());
   m_pInfo->strClientPath  = m_strClientPath.c_str();
   m_menuhooks.clear();
+  m_timertypes.clear();
+  m_strTimerTypes.clear();
   m_bReadyToUse           = false;
   m_iClientId             = iClientId;
   m_strBackendVersion     = DEFAULT_INFO_STRING_VALUE;
@@ -285,13 +287,13 @@ void CPVRClient::WriteClientTimerInfo(const CPVRTimerInfoTag &xbmcTimer, PVR_TIM
 
   addonTimer.iClientIndex      = xbmcTimer.m_iClientIndex;
   addonTimer.state             = xbmcTimer.m_state;
-  addonTimer.iClientIndex      = xbmcTimer.m_iClientIndex;
+  addonTimer.iTimerType        = xbmcTimer.m_iTimerType;
   addonTimer.iClientChannelUid = xbmcTimer.m_iClientChannelUid;
   strncpy(addonTimer.strTitle, xbmcTimer.m_strTitle.c_str(), sizeof(addonTimer.strTitle) - 1);
   strncpy(addonTimer.strDirectory, xbmcTimer.m_strDirectory.c_str(), sizeof(addonTimer.strDirectory) - 1);
   addonTimer.iPriority         = xbmcTimer.m_iPriority;
   addonTimer.iLifetime         = xbmcTimer.m_iLifetime;
-  addonTimer.bIsRepeating      = xbmcTimer.m_bIsRepeating;
+  addonTimer.bNewEpisodesOnly  = xbmcTimer.m_bNewEpisodesOnly;
   addonTimer.iWeekdays         = xbmcTimer.m_iWeekdays;
   addonTimer.startTime         = start - g_advancedSettings.m_iPVRTimeCorrection;
   addonTimer.endTime           = end - g_advancedSettings.m_iPVRTimeCorrection;
@@ -1090,7 +1092,7 @@ PVR_ERROR CPVRClient::AddTimer(const CPVRTimerInfoTag &timer)
   return retVal;
 }
 
-PVR_ERROR CPVRClient::DeleteTimer(const CPVRTimerInfoTag &timer, bool bForce /* = false */)
+PVR_ERROR CPVRClient::DeleteTimer(const CPVRTimerInfoTag &timer, bool bForce /* = false */, bool bDeleteSchedule /* = false */)
 {
   if (!m_bReadyToUse)
     return PVR_ERROR_REJECTED;
@@ -1104,7 +1106,7 @@ PVR_ERROR CPVRClient::DeleteTimer(const CPVRTimerInfoTag &timer, bool bForce /* 
     PVR_TIMER tag;
     WriteClientTimerInfo(timer, tag);
 
-    retVal = m_pStruct->DeleteTimer(tag, bForce);
+    retVal = m_pStruct->DeleteTimer(tag, bForce, bDeleteSchedule);
 
     LogError(retVal, __FUNCTION__);
   }
@@ -1166,6 +1168,37 @@ PVR_ERROR CPVRClient::UpdateTimer(const CPVRTimerInfoTag &timer)
   }
 
   return retVal;
+}
+
+bool CPVRClient::HasTimerTypes() const
+{
+  bool bReturn(false);
+  
+  if (m_bReadyToUse && m_timertypes.size() > 0)
+  	bReturn = true;
+  
+  return bReturn;
+}
+
+PVR_TIMERTYPES *CPVRClient::GetTimerTypes(void)
+{
+  return &m_timertypes;
+}
+
+int CPVRClient::GetTimerTypeStrId(int typeId)
+{
+  int iReturn = -1;
+
+  if (m_strTimerTypes.size() <= 0 && HasTimerTypes())
+  {
+    for (unsigned int i = 0; i < m_timertypes.size(); i++)
+      m_strTimerTypes[m_timertypes.at(i).iTypeId] = m_timertypes.at(i).iLocalizedStringId;;
+  }
+
+  if (m_strTimerTypes.find(typeId) != m_strTimerTypes.end())
+    return m_strTimerTypes.at(typeId);
+
+  return iReturn;
 }
 
 int CPVRClient::ReadStream(void* lpBuf, int64_t uiBufSize)

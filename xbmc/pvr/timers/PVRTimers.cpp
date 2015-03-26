@@ -449,13 +449,13 @@ bool CPVRTimers::DeleteTimersOnChannel(const CPVRChannelPtr &channel, bool bDele
       for (VecTimerInfoTag::iterator timerIt = it->second->begin(); timerIt != it->second->end(); ++timerIt)
       {
         bool bDeleteActiveItem = !bCurrentlyActiveOnly || (*timerIt)->IsRecording();
-        bool bDeleteRepeatingItem = bDeleteRepeating || !(*timerIt)->m_bIsRepeating;
+        bool bDeleteRepeatingItem = bDeleteRepeating || !(*timerIt)->IsRepeating();
         bool bChannelsMatch = (*timerIt)->ChannelTag() == channel;
 
         if (bDeleteActiveItem && bDeleteRepeatingItem && bChannelsMatch)
         {
           CLog::Log(LOGDEBUG,"PVRTimers - %s - deleted timer %d on client %d", __FUNCTION__, (*timerIt)->m_iClientIndex, (*timerIt)->m_iClientId);
-          bReturn = (*timerIt)->DeleteFromClient(true) || bReturn;
+          bReturn = (*timerIt)->DeleteFromClient(true, false) || bReturn;
           SetChanged();
         }
       }
@@ -541,7 +541,7 @@ bool CPVRTimers::AddTimer(const CPVRTimerInfoTagPtr &item)
   return item->AddToClient();
 }
 
-bool CPVRTimers::DeleteTimer(const CFileItem &item, bool bForce /* = false */)
+bool CPVRTimers::DeleteTimer(const CFileItem &item, bool bForce /* = false */, bool bDeleteSchedule /* = false */)
 {
   /* Check if a CPVRTimerInfoTag is inside file item */
   if (!item.IsPVRTimer())
@@ -554,7 +554,7 @@ bool CPVRTimers::DeleteTimer(const CFileItem &item, bool bForce /* = false */)
   if (!tag)
     return false;
 
-  return tag->DeleteFromClient(bForce);
+  return tag->DeleteFromClient(bForce,bDeleteSchedule);
 }
 
 bool CPVRTimers::RenameTimer(CFileItem &item, const std::string &strNewName)
