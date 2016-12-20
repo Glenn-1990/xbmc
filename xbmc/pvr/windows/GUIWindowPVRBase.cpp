@@ -487,20 +487,21 @@ bool CGUIWindowPVRBase::PlayFile(CFileItem *item, bool bPlayMinimized /* = false
       CPVRRecordingPtr recording = channel->GetRecording();
       if (recording)
       {
-        CGUIDialogYesNo* pDialog = (CGUIDialogYesNo*) g_windowManager.GetWindow(WINDOW_DIALOG_YES_NO);
-        if (pDialog)
-        {
-          pDialog->SetHeading(CVariant{19687}); // Play recording
-          pDialog->SetLine(0, CVariant{""});
-          pDialog->SetLine(1, CVariant{12021}); // Start from beginning
-          pDialog->SetLine(2, CVariant{recording->m_strTitle});
-          pDialog->Open();
+        bool bCancel(false);
+        bool bConfirmed = CGUIDialogYesNo::ShowAndGetInput(
+                            CVariant{19687}, // Play recording
+                            CVariant{""},
+                            CVariant{12021}, // Start from beginning
+                            CVariant{recording->m_strTitle},
+                            bCancel);
 
-          if (pDialog->IsConfirmed())
-          {
-            CFileItem recordingItem(recording);
-            return PlayRecording(&recordingItem, CSettings::GetInstance().GetBool(CSettings::SETTING_PVRPLAYBACK_PLAYMINIMIZED), bCheckResume);
-          }
+        if (bCancel)
+          return true;
+
+        if (bConfirmed)
+        {
+          CFileItem recordingItem(recording);
+          return PlayRecording(&recordingItem, CSettings::GetInstance().GetBool(CSettings::SETTING_PVRPLAYBACK_PLAYMINIMIZED), bCheckResume);
         }
       }
 
