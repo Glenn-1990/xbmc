@@ -22,7 +22,7 @@
         </setting>
         <setting id="videoplayer.seekdelay" type="integer" label="13557" help="37043">
           <level>1</level>
-          <default>750</default>
+          <default>1500</default>
           <constraints>
             <minimum label="231">0</minimum> <!-- None -->
             <step>250</step>
@@ -36,7 +36,7 @@
       <group id="2" label="19177">
         <setting id="videoplayer.adjustrefreshrate" type="integer" label="170" help="36164">
           <level>1</level>
-          <default>0</default> <!-- ADJUST_REFRESHRATE_OFF -->
+          <default>2</default> <!-- ADJUST_REFRESHRATE_OFF -->
           <constraints>
             <options>
               <option label="351">0</option> <!-- ADJUST_REFRESHRATE_OFF -->
@@ -386,7 +386,7 @@
         </setting>
         <setting id="musicplayer.seekdelay" type="integer" label="13557" help="37043">
           <level>1</level>
-          <default>750</default>
+          <default>1500</default>
           <constraints>
             <minimum label="231">0</minimum> <!-- None -->
             <step>250</step>
@@ -1250,7 +1250,7 @@
         </setting>
         <setting id="pvrmanager.usebackendchannelnumbers" type="boolean" label="19234" help="36206">
           <level>2</level>
-          <default>false</default>
+          <default>true</default>
           <control type="toggle" />
         </setting>
         <setting id="pvrmanager.channelmanager" type="action" label="19199" help="36207">
@@ -1320,7 +1320,7 @@
       <group id="1" label="128">
         <setting id="epg.daystodisplay" type="integer" label="19182" help="36220">
           <level>2</level>
-          <default>3</default>
+          <default>2</default>
           <constraints>
             <minimum>1</minimum>
             <step>1</step>
@@ -1364,7 +1364,7 @@
         </setting>
         <setting id="epg.preventupdateswhileplayingtv" type="boolean" label="19230" help="36222">
           <level>2</level>
-          <default>false</default>
+          <default>true</default>
           <control type="toggle" />
         </setting>
         <setting id="epg.ignoredbforclient" type="boolean" label="19072" help="36223">
@@ -1382,7 +1382,7 @@
       <group id="1" label="128">
         <setting id="pvrplayback.playminimized" type="boolean" label="19171" help="36227">
           <level>1</level>
-          <default>true</default>
+          <default>false</default>
           <control type="toggle" />
         </setting>
         <setting id="pvrplayback.startlast" type="integer" label="19189" help="36228">
@@ -1421,7 +1421,7 @@
         </setting>
         <setting id="pvrplayback.channelentrytimeout" type="integer" label="19073" help="36232">
           <level>2</level>
-          <default>0</default>
+          <default>1500</default>
           <constraints>
             <minimum>0</minimum>
             <step>250</step>
@@ -1433,7 +1433,7 @@
         </setting>
         <setting id="pvrplayback.fps" type="integer" label="19108" help="36261">
           <level>0</level>
-          <default>0</default>
+          <default>1</default>
           <constraints>
             <options>
               <option label="351">0</option>   <!-- OFF -->
@@ -1447,7 +1447,7 @@
       <group id="2" label="14304">
         <setting id="pvrplayback.enableradiords" type="boolean" label="29980" help="29981">
           <level>1</level>
-          <default>true</default>
+          <default>false</default>
           <control type="toggle" />
         </setting>
         <setting id="pvrplayback.trafficadvisory" type="boolean" label="29982" help="29983">
@@ -1526,7 +1526,7 @@
         </setting>
         <setting id="pvrrecord.marginstart" type="integer" label="19175" help="36237">
           <level>2</level>
-          <default>0</default> <!-- 0 mins -->
+          <default>10</default> <!-- 10 mins -->
           <constraints>
             <options>pvrrecordmargins</options>
           </constraints>
@@ -1534,7 +1534,7 @@
         </setting>
         <setting id="pvrrecord.marginend" type="integer" label="19176" help="36238">
           <level>2</level>
-          <default>0</default> <!-- 0 mins -->
+          <default>15</default> <!-- 15 mins -->
           <constraints>
             <options>pvrrecordmargins</options>
           </constraints>
@@ -1707,7 +1707,7 @@
       <requirement>HAS_WEB_SERVER</requirement>
         <setting id="services.webserver" type="boolean" label="263" help="36328">
           <level>1</level>
-          <default>false</default>
+          <default>true</default>
           <control type="toggle" />
         </setting>
         <setting id="services.webserverport" type="integer" parent="services.webserver" label="730" help="36329">
@@ -2341,12 +2341,12 @@
         </setting>
         <setting id="audiooutput.config" type="integer" label="337" help="36361">
           <level>2</level>
-          <default>2</default>
+          <default>3</default> <!-- best match -->
           <constraints>
             <options>
-              <option label="338">1</option>
-              <option label="339">2</option>
-              <option label="420">3</option>
+              <option label="338">1</option> <!-- fixed -->
+              <option label="339">2</option> <!-- optimized -->
+              <option label="420">3</option> <!-- best match -->
             </options>
           </constraints>
           <control type="list" format="integer" />
@@ -2625,7 +2625,7 @@
         <setting id="input.enablemouse" type="boolean" label="21369" help="36377">
           <level>0</level>
           <control type="toggle" />
-          <default>true</default>
+          <default>false</default>
         </setting>
         <setting id="input.asknewcontrollers" type="boolean">
           <level>0</level>
@@ -2753,7 +2753,7 @@
       <group id="1" label="14255">
         <setting id="powermanagement.displaysoff" type="integer" label="1450" help="36388">
           <level>0</level>
-          <default>0</default>
+          <default>30</default>
           <constraints>
             <minimum label="351">0</minimum>
             <step>5</step>
@@ -2796,7 +2796,7 @@
       <group id="1" label="16000">
         <setting id="general.addonupdates" type="integer" label="36605" help="36611">
           <level>0</level>
-          <default>0</default>
+          <default>2</default>
           <constraints>
             <options>
               <option label="36606">0</option> <!-- AUTO_UPDATES_ON -->
@@ -3082,7 +3082,7 @@
         </setting>
         <setting id="lookandfeel.skincolors" type="string" parent="lookandfeel.skin" label="14078" help="36106">
           <level>1</level>
-          <default>SKINDEFAULT</default>
+          <default>concrete</default>
           <constraints>
             <options>skincolors</options>
           </constraints>
