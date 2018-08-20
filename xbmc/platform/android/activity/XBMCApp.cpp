@@ -176,6 +176,7 @@ void CXBMCApp::onResume()
   CJNIIntentFilter intentFilter;
   intentFilter.addAction("android.intent.action.BATTERY_CHANGED");
   intentFilter.addAction("android.intent.action.SCREEN_ON");
+  intentFilter.addAction("android.intent.action.SCREEN_OFF");
   intentFilter.addAction("android.intent.action.HEADSET_PLUG");
   registerReceiver(*this, intentFilter);
 
@@ -805,6 +806,8 @@ void CXBMCApp::onReceive(CJNIIntent intent)
   android_printf("CXBMCApp::onReceive Got intent. Action: %s", action.c_str());
   if (action == "android.intent.action.BATTERY_CHANGED")
     m_batteryLevel = intent.getIntExtra("level",-1);
+  else if (action == "android.intent.action.SCREEN_OFF")
+	  g_application.StopPlaying(); //todo: or only for realtime/liveTv?
   else if (action == "android.intent.action.DREAMING_STOPPED" || action == "android.intent.action.SCREEN_ON")
   {
     if (HasFocus())
@@ -880,7 +883,7 @@ void CXBMCApp::onAudioFocusChange(int focusChange)
   {
     unregisterMediaButtonEventReceiver();
 
-    if (g_application.m_pPlayer->IsPlaying() && !g_application.m_pPlayer->IsPaused())
+    if (g_application.m_pPlayer->IsPlaying() && !g_application.m_pPlayer->IsPaused()) //todo: stop for live/realtime?
       CApplicationMessenger::GetInstance().SendMsg(TMSG_GUI_ACTION, WINDOW_INVALID, -1, static_cast<void*>(new CAction(ACTION_PAUSE)));
   }
 }
