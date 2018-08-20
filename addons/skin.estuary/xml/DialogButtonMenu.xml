@@ -23,6 +23,11 @@
 						<visible>System.ShowExitButton</visible>
 					</item>
 					<item>
+						<label>$LOCALIZE[13014]</label>
+						<onclick>Minimize()</onclick>
+						<visible>!System.IsStandAlone</visible>
+					</item>
+					<item>
 						<label>$LOCALIZE[13016]</label>
 						<onclick>Powerdown()</onclick>
 						<visible>System.CanPowerDown</visible>
