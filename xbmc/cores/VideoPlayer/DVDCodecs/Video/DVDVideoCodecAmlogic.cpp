@@ -78,6 +78,19 @@ bool CDVDVideoCodecAmlogic::Open(CDVDStreamInfo &hints, CDVDCodecOptions &option
 
   m_hints = hints;
 
+  if (m_hints.codec == AV_CODEC_ID_H264/* || m_hints.codec == AV_CODEC_ID_MPEG2VIDEO*/)
+  {
+	  // if we have SD PAL content assume it is widescreen
+	  CLog::Log(LOGINFO, "CDVDVideoCodecAmlogic::Open - aspect hint %f", m_hints.aspect);
+	  if ((m_hints.width == 720 || m_hints.width == 704 || m_hints.width == 544 ||
+			  m_hints.width == 480 || m_hints.width == 768)
+			  && m_hints.height == 576 && m_hints.aspect == 0.0f)
+	  {
+		  m_hints.aspect = static_cast<float>(16) / 9;
+	  }
+	  CLog::Log(LOGINFO, "CDVDVideoCodecAmlogic - aspect %f, width %i, height %i", m_hints.aspect, m_hints.width, m_hints.height);
+  }
+  
   switch(m_hints.codec)
   {
     case AV_CODEC_ID_MJPEG:
