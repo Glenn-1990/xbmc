@@ -1,0 +1,113 @@
+<sources>
+    <programs>
+        <default pathversion="1"></default>
+    </programs>
+    <video>
+        <default pathversion="1"></default>
+        <source>
+            <name>Video&apos;s</name>
+            <path pathversion="1">sftp://ftp_gedeeld:jijihs@192.168.1.100:22//Video&apos;s/</path>
+            <allowsharing>true</allowsharing>
+        </source>
+        <source>
+            <name>Glenn</name>
+            <path pathversion="1">sftp://ftp_glenn:hgkdlb@192.168.1.100:22//Video&apos;s/</path>
+            <lockmode>1</lockmode>
+            <lockcode>ac2a728f9f17b5d860b6dabd80a5162f</lockcode>
+            <badpwdcount>0</badpwdcount>
+            <allowsharing>false</allowsharing>
+        </source>
+        <source>
+            <name>Jelle</name>
+            <path pathversion="1">sftp://ftp_jelle:hgdflt@192.168.1.100:22//Video&apos;s/</path>
+            <allowsharing>true</allowsharing>
+        </source>
+        <source>
+            <name>Britt</name>
+            <path pathversion="1">sftp://ftp_britt:hgkdsb@192.168.1.100:22//Video&apos;s/</path>
+            <allowsharing>true</allowsharing>
+        </source>
+        <source>
+            <name>Linda</name>
+            <path pathversion="1">sftp://ftp_linda:hgkgth@192.168.1.100:22//Video&apos;s/</path>
+            <allowsharing>true</allowsharing>
+        </source>
+        <source>
+            <name>Luc</name>
+            <path pathversion="1">sftp://ftp_luc:hmpdlb@192.168.1.100:22//Video&apos;s/</path>
+            <allowsharing>true</allowsharing>
+        </source>
+        <source>
+            <name>Opnames</name>
+            <path pathversion="1">sftp://ftp_opnames:hgdkls@192.168.1.100:22/</path>
+            <allowsharing>true</allowsharing>
+        </source>
+    </video>
+    <music>
+        <default pathversion="1"></default>
+        <source>
+            <name>Britt</name>
+            <path pathversion="1">sftp://ftp_britt:hgkdsb@192.168.1.100:22//Muziek/</path>
+            <allowsharing>true</allowsharing>
+        </source>
+        <source>
+            <name>Glenn</name>
+            <path pathversion="1">sftp://ftp_glenn:hgkdlb@192.168.1.100:22//Muziek/</path>
+            <allowsharing>true</allowsharing>
+        </source>
+        <source>
+            <name>Jelle</name>
+            <path pathversion="1">sftp://ftp_jelle:hgdflt@192.168.1.100:22//Muziek/</path>
+            <allowsharing>true</allowsharing>
+        </source>
+        <source>
+            <name>Linda</name>
+            <path pathversion="1">sftp://ftp_linda:hgkgth@192.168.1.100:22//Muziek/</path>
+            <allowsharing>true</allowsharing>
+        </source>
+        <source>
+            <name>Luc</name>
+            <path pathversion="1">sftp://ftp_luc:hmpdlb@192.168.1.100:22//Muziek/</path>
+            <allowsharing>true</allowsharing>
+        </source>
+    </music>
+    <pictures>
+        <default pathversion="1"></default>
+        <source>
+            <name>Britt</name>
+            <path pathversion="1">sftp://ftp_britt:hgkdsb@192.168.1.100:22//Afbeeldingen/</path>
+            <allowsharing>true</allowsharing>
+        </source>
+        <source>
+            <name>Glenn</name>
+            <path pathversion="1">sftp://ftp_glenn:hgkdlb@192.168.1.100:22//Afbeeldingen/</path>
+            <lockmode>1</lockmode>
+            <lockcode>6020</lockcode>
+            <badpwdcount>3</badpwdcount>
+            <allowsharing>false</allowsharing>
+        </source>
+        <source>
+            <name>Jelle</name>
+            <path pathversion="1">sftp://ftp_jelle:hgdflt@192.168.1.100:22//Afbeeldingen/</path>
+            <allowsharing>true</allowsharing>
+        </source>
+        <source>
+            <name>Linda</name>
+            <path pathversion="1">sftp://ftp_linda:hgkgth@192.168.1.100:22//Afbeeldingen/</path>
+            <allowsharing>true</allowsharing>
+        </source>
+        <source>
+            <name>Luc</name>
+            <path pathversion="1">sftp://ftp_luc:hmpdlb@192.168.1.100:22//Afbeeldingen/</path>
+            <allowsharing>true</allowsharing>
+        </source>
+    </pictures>
+    <files>
+        <default pathversion="1"></default>
+        <source>
+            <name>Documenten op server</name>
+            <path pathversion="1">sftp://ftp_gedeeld:jijihs@192.168.1.100:22//</path>
+            <allowsharing>true</allowsharing>
+        </source>
+    </files>
+</sources>
