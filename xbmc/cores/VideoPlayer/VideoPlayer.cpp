@@ -1961,11 +1961,17 @@ void CVideoPlayer::HandlePlaySpeed()
         if (m_CurrentAudio.id >= 0)
         {
           double adjust = -1.0; // a unique value
-          if (m_clock.GetSpeedAdjust() >= 0 && m_VideoPlayerAudio->GetLevel() < 5)
+          if (m_clock.GetSpeedAdjust() >= 0 && m_VideoPlayerAudio->GetLevel() < 20)
+          {
             adjust = -0.05;
+            CLog::Log(LOGERROR, "VideoPlayer::Slowed playback speed of realtime stream");
+          }
 
-          if (m_clock.GetSpeedAdjust() < 0 && m_VideoPlayerAudio->GetLevel() > 10)
+          if (m_clock.GetSpeedAdjust() < 0 && m_VideoPlayerAudio->GetLevel() > 40)
+          {
             adjust = 0.0;
+            CLog::Log(LOGERROR, "VideoPlayer::Resumed normal playback speed of realtime stream");
+          }
 
           if (adjust != -1.0)
           {
@@ -5241,6 +5247,9 @@ void CVideoPlayer::OnLostDisplay()
   m_VideoPlayerVideo->SendMessage(new CDVDMsgBool(CDVDMsg::GENERAL_PAUSE, true), 1);
   m_clock.Pause(true);
   m_displayLost = true;
+
+  /* if (m_pInputStream && m_pInputStream->IsRealtime())
+	  CLog::Log(LOGNOTICE, "VideoPlayer: OnLostDisplay received, stop live media"); */
 }
 
 void CVideoPlayer::OnResetDisplay()
