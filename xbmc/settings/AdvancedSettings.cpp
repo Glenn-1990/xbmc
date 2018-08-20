@@ -355,11 +355,11 @@ void CAdvancedSettings::Initialize()
   m_bPVRAutoScanIconsUserSet       = false;
   m_iPVRNumericChannelSwitchTimeout = 1000;
 
-  m_cacheMemSize = 1024 * 1024 * 20;
-  m_cacheBufferMode = CACHE_BUFFER_MODE_INTERNET; // Default (buffer all internet streams/filesystems)
+  m_cacheMemSize = 1024 * 1024 * 40;
+  m_cacheBufferMode = CACHE_BUFFER_MODE_ALL; // Default (buffer all internet streams/filesystems)
   // the following setting determines the readRate of a player data
   // as multiply of the default data read rate
-  m_cacheReadFactor = 4.0f;
+  m_cacheReadFactor = 6.0f;
 
   m_addonPackageFolderSize = 200;
 
@@ -797,7 +797,7 @@ void CAdvancedSettings::ParseSettingsFile(const std::string &file)
   if (pElement)
   {
     XMLUtils::GetUInt(pElement, "memorysize", m_cacheMemSize);
-    XMLUtils::GetUInt(pElement, "buffermode", m_cacheBufferMode, 0, 4);
+    XMLUtils::GetUInt(pElement, "buffermode", m_cacheBufferMode, 0, 1);
     XMLUtils::GetFloat(pElement, "readfactor", m_cacheReadFactor);
   }
 
